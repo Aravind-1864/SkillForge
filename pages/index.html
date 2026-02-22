@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SkillForge — Master Tech Skills</title>
+<link rel="stylesheet" href="../css/styles.css"/>
+<style>
+/* ── LANDING PAGE SPECIFIC ── */
+body { overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6%; height: 64px;
+  background: rgba(247,249,252,.88); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(232,236,240,.7);
+}
+.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo-icon {
+  width:34px; height:34px; background:var(--ink); border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  color:#bfff58; font-family:var(--ff-m); font-size:13px; font-weight:700;
+}
+.nav-logo-text { font-family:var(--ff-d); font-size:20px; color:var(--ink); }
+.nav-links { display:flex; align-items:center; gap:6px; }
+.nav-link { padding:7px 14px; border-radius:var(--r); font-size:13.5px; font-weight:500; color:var(--ink2); cursor:pointer; border:none; background:none; transition:all .15s; text-decoration:none; }
+.nav-link:hover { background:var(--bg3); color:var(--ink); }
+.nav-cta { background:var(--ink); color:#fff; border:none; padding:8px 20px; border-radius:var(--r); font-size:13.5px; font-weight:600; cursor:pointer; transition:all .2s; text-decoration:none; display:inline-block; }
+.nav-cta:hover { background:#1e2533; box-shadow: var(--shadow); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 100px 6% 60px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(13,148,136,.07) 0%, transparent 70%);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+  opacity: .55;
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg2); border: 1.5px solid var(--line);
+  border-radius: 30px; padding: 6px 16px;
+  font-family: var(--ff-m); font-size: 11px; color: var(--teal);
+  margin-bottom: 26px; animation: fadeUp .6s ease both;
+}
+.hero-pill-dot { width:7px; height:7px; border-radius:50%; background:var(--teal); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+.hero-h1 {
+  font-family: var(--ff-d);
+  font-size: clamp(46px, 7vw, 82px);
+  line-height: 1.04; letter-spacing: -2.5px;
+  color: var(--ink); margin-bottom: 22px;
+  animation: fadeUp .6s .1s ease both;
+}
+.hero-h1 em { font-style: italic; color: var(--teal); }
+
+.hero-sub {
+  font-size: 18px; color: var(--ink2); line-height: 1.65;
+  max-width: 560px; margin: 0 auto 36px;
+  animation: fadeUp .6s .2s ease both;
+}
+
+.hero-btns {
+  display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+  animation: fadeUp .6s .3s ease both;
+}
+.hero-btn-main {
+  padding: 14px 32px; background: var(--ink); color: #fff; border: none;
+  border-radius: var(--r2); font-size: 16px; font-weight: 600; cursor: pointer;
+  transition: all .2s; text-decoration: none; display: inline-block;
+}
+.hero-btn-main:hover { background: #1e2533; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(15,17,23,.2); }
+.hero-btn-sec {
+  padding: 14px 28px; background: var(--bg2); color: var(--ink);
+  border: 1.5px solid var(--line); border-radius: var(--r2);
+  font-size: 15px; font-weight: 500; cursor: pointer; transition: all .2s;
+  text-decoration: none; display: inline-block;
+}
+.hero-btn-sec:hover { border-color: var(--teal); color: var(--teal); }
+
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 36px;
+  margin-top: 52px; flex-wrap: wrap;
+  animation: fadeUp .6s .45s ease both;
+}
+.hero-stat-val { font-family: var(--ff-d); font-size: 32px; color: var(--ink); }
+.hero-stat-lab { font-size: 12px; color: var(--ink3); margin-top: 2px; }
+
+/* SKILLS MARQUEE */
+.marquee-section { padding: 0 0 60px; overflow: hidden; }
+.marquee-label { text-align: center; font-family: var(--ff-m); font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+.marquee-track { display: flex; gap: 10px; animation: marquee 22s linear infinite; width: max-content; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.marquee-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 18px; background: var(--bg2);
+  border: 1.5px solid var(--line); border-radius: 30px;
+  font-size: 13.5px; font-weight: 500; color: var(--ink2);
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* HOW IT WORKS */
+.section { padding: 80px 6%; }
+.section-label { font-family: var(--ff-m); font-size: 10px; color: var(--teal); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
+.section-title { font-family: var(--ff-d); font-size: clamp(32px,4vw,48px); line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 14px; }
+.section-sub { font-size: 16px; color: var(--ink2); max-width: 520px; line-height: 1.65; }
+
+.steps { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 14px; margin-top: 48px; }
+.step {
+  background: var(--bg2); border: 1.5px solid var(--line);
+  border-radius: var(--r2); padding: 28px 24px;
+  transition: all .2s; position: relative; overflow: hidden;
+}
+.step:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+.step::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.step:nth-child(1)::before { background: var(--teal); }
+.step:nth-child(2)::before { background: var(--blue); }
+.step:nth-child(3)::before { background: var(--orange); }
+.step:nth-child(4)::before { background: var(--purple); }
+.step-num { font-family: var(--ff-m); font-size: 10px; color: var(--ink3); margin-bottom: 14px; }
+.step-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.step-title { font-family: var(--ff-d); font-size: 19px; margin-bottom: 7px; }
+.step-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+/* FEATURES */
+.features-section { padding: 80px 6%; background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 48px; }
+.feature {
+  padding: 26px 24px; border: 1.5px solid var(--line);
+  border-radius: var(--r2); transition: all .2s; background: var(--bg);
+}
+.feature:hover { background: var(--bg2); box-shadow: var(--shadow); transform: translateY(-3px); }
+.feature-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+.feature-title { font-family: var(--ff-d); font-size: 17px; margin-bottom: 7px; }
+.feature-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+/* TESTIMONIALS */
+.testimonials { padding: 80px 6%; }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 14px; margin-top: 48px; }
+.testi {
+  background: var(--bg2); border: 1.5px solid var(--line);
+  border-radius: var(--r2); padding: 24px;
+  transition: all .2s;
+}
+.testi:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+.testi-stars { color: #f59e0b; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+.testi-text { font-size: 14px; color: var(--ink2); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 10px; }
+.testi-av { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:#fff; flex-shrink:0; }
+.testi-name { font-size:13px; font-weight:600; }
+.testi-role { font-size:11px; color:var(--ink3); font-family:var(--ff-m); }
+
+/* CTA SECTION */
+.cta-section {
+  padding: 90px 6%; text-align: center;
+  background: var(--ink); color: #fff;
+  position: relative; overflow: hidden;
+}
+.cta-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(13,148,136,.15) 0%, transparent 60%);
+}
+.cta-content { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+.cta-title { font-family: var(--ff-d); font-size: clamp(36px,5vw,58px); line-height: 1.08; letter-spacing: -2px; margin-bottom: 16px; }
+.cta-title em { font-style: italic; color: #bfff58; }
+.cta-sub { font-size: 16px; color: rgba(255,255,255,.6); line-height: 1.65; margin-bottom: 36px; }
+.cta-btn {
+  display: inline-block; padding: 14px 36px;
+  background: #bfff58; color: var(--ink);
+  border: none; border-radius: var(--r2);
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  transition: all .2s; text-decoration: none;
+}
+.cta-btn:hover { background: #d4ff7a; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(191,255,88,.25); }
+.cta-note { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,.35); font-family: var(--ff-m); }
+
+/* FOOTER */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--line);
+  padding: 28px 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
+}
+.footer-logo { font-family: var(--ff-d); font-size: 18px; color: var(--ink); }
+.footer-copy { font-size: 12px; color: var(--ink3); font-family: var(--ff-m); }
+.footer-links { display:flex; gap: 20px; }
+.footer-links a { font-size: 13px; color: var(--ink3); text-decoration: none; transition: color .15s; }
+.footer-links a:hover { color: var(--teal); }
+
+/* SCROLL ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">SF</div>
+    <div class="nav-logo-text">SkillForge</div>
+  </a>
+  <div class="nav-links">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="auth.html" class="nav-link">Login</a>
+    <a href="auth.html" class="nav-cta">Get Started Free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-pill">
+      <div class="hero-pill-dot"></div>
+      Free for all students · No credit card needed
+    </div>
+    <h1 class="hero-h1">
+      Master Tech Skills<br>the <em>Smart</em> Way
+    </h1>
+    <p class="hero-sub">
+      Structured roadmaps, coding practice, mock tests, and AI-powered recommendations — everything you need to go from beginner to job-ready.
+    </p>
+    <div class="hero-btns">
+      <a href="auth.html" class="hero-btn-main">Start Learning for Free →</a>
+      <a href="#how" class="hero-btn-sec">See how it works ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">10</div>
+        <div class="hero-stat-lab">Skill Roadmaps</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--line)"></div>
+      <div>
+        <div class="hero-stat-val">10</div>
+        <div class="hero-stat-lab">Coding Problems</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--line)"></div>
+      <div>
+        <div class="hero-stat-val">3</div>
+        <div class="hero-stat-lab">Mock Test Banks</div>
+      </div>
+      <div style="width:1px;height:36px;background:var(--line)"></div>
+      <div>
+        <div class="hero-stat-val">5</div>
+        <div class="hero-stat-lab">Languages</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-label">Skill tracks available</div>
+  <div style="overflow:hidden">
+    <div class="marquee-track" id="marquee">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Four steps to mastery</h2>
+    <p class="section-sub">We've designed a learning system that actually works — not just content, but a complete journey.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <span class="step-icon">🗺️</span>
+        <div class="step-title">Pick a Roadmap</div>
+        <div class="step-desc">Choose from 10 skill tracks. Follow a structured Beginner → Intermediate → Advanced path with curated resources for every topic.</div>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">02</div>
+        <span class="step-icon">💻</span>
+        <div class="step-title">Code & Practice</div>
+        <div class="step-desc">Write real code in our editor across 5 languages. Solve 10 curated interview problems with hints and optimized solutions.</div>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">03</div>
+        <span class="step-icon">📝</span>
+        <div class="step-title">Test Your Knowledge</div>
+        <div class="step-desc">Take timed mock tests on Python, DSA, and Web Dev. Get instant explanations for every question and earn XP for performance.</div>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-num">04</div>
+        <span class="step-icon">🤖</span>
+        <div class="step-title">AI Guides You</div>
+        <div class="step-desc">Our AI engine analyses your progress and health habits to recommend the right content at the right time — personalised for you.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Everything included</div>
+    <h2 class="section-title">A complete learning platform</h2>
+    <p class="section-sub">Every tool a student needs, in one place — completely free.</p>
+    <div class="features-grid">
+      <div class="feature reveal">
+        <span class="feature-icon">🗺️</span>
+        <div class="feature-title">Skill Roadmaps</div>
+        <div class="feature-desc">10 structured paths across Python, JavaScript, Java, MERN, DevOps, DSA and more. Tick topics as you complete them.</div>
+      </div>
+      <div class="feature reveal reveal-delay-1">
+        <span class="feature-icon">▦</span>
+        <div class="feature-title">Code Editor</div>
+        <div class="feature-desc">Run Python, JavaScript, Java and SQL directly in the browser. HTML renders a live preview. Powered by Judge0 API in production.</div>
+      </div>
+      <div class="feature reveal reveal-delay-2">
+        <span class="feature-icon">🧩</span>
+        <div class="feature-title">Practice Problems</div>
+        <div class="feature-desc">10 real interview problems from Easy to Hard. Write code, view optimised solutions, and earn XP for every solved problem.</div>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon">📝</span>
+        <div class="feature-title">Mock Tests</div>
+        <div class="feature-desc">Timed quizzes on Python, DSA and Web Dev. Instant scoring with detailed explanations and an XP reward system.</div>
+      </div>
+      <div class="feature reveal reveal-delay-1">
+        <span class="feature-icon">❤️</span>
+        <div class="feature-title">Health Tracker</div>
+        <div class="feature-desc">Log sleep, water, meals and exercise. See how your physical health directly impacts your learning performance scores.</div>
+      </div>
+      <div class="feature reveal reveal-delay-2">
+        <span class="feature-icon">🤖</span>
+        <div class="feature-title">AI Recommendations</div>
+        <div class="feature-desc">Smart rule-based engine (KNN in Phase 3) that analyses your data and recommends exactly what to learn or practice next.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Student stories</div>
+    <h2 class="section-title">Used by students like you</h2>
+    <div class="testi-grid">
+      <div class="testi reveal">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The DSA roadmap is exactly what I needed. The problems go from basics to hard in a way that actually makes sense. I cracked my first intern placement!"</div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:#0d9488">A</div>
+          <div><div class="testi-name">Arjun Sharma</div><div class="testi-role">CS Student, VIT</div></div>
+        </div>
+      </div>
+      <div class="testi reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The health tracker is what makes this different. I never realised how much sleep was affecting my coding sessions until I saw the data. Game changer."</div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:#2563eb">P</div>
+          <div><div class="testi-name">Priya Nair</div><div class="testi-role">B.Tech CSE, BITS</div></div>
+        </div>
+      </div>
+      <div class="testi reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I used to jump between 5 different websites. Now everything's here. Mock tests for Python prep, roadmap for MERN, code editor for practice — it's all one app."</div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:#7c3aed">R</div>
+          <div><div class="testi-name">Rahul Mehta</div><div class="testi-role">Final Year, NIT Trichy</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-content">
+    <div class="cta-title">Ready to start your<br><em>learning journey?</em></div>
+    <p class="cta-sub">Join thousands of students building real skills every day. Free forever, no credit card required.</p>
+    <a href="auth.html" class="cta-btn">Create Free Account →</a>
+    <div class="cta-note">Already have an account? <a href="auth.html" style="color:rgba(255,255,255,.5);text-decoration:underline">Log in</a></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SkillForge</div>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="auth.html">Get started</a>
+  </div>
+  <div class="footer-copy">© 2025 SkillForge. Built for students.</div>
+</footer>
+
+<script>
+// Marquee
+const skills = [
+  {e:'🐍',n:'Python'},{e:'⚡',n:'JavaScript'},{e:'☕',n:'Java'},{e:'🟢',n:'MERN Stack'},
+  {e:'⚙️',n:'DevOps'},{e:'🌐',n:'Web Dev'},{e:'🧩',n:'DSA'},{e:'🛡️',n:'Cybersecurity'},
+  {e:'⚛️',n:'React'},{e:'💚',n:'Node.js'},
+];
+const track = document.getElementById('marquee');
+const doubled = [...skills, ...skills, ...skills, ...skills];
+doubled.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'marquee-item';
+  el.innerHTML = `<span>${s.e}</span> ${s.n}`;
+  track.appendChild(el);
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

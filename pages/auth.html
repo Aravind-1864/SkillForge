@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SkillForge — Login / Sign Up</title>
+<link rel="stylesheet" href="../css/styles.css"/>
+<style>
+/* AUTH PAGE */
+body { min-height: 100vh; display: flex; }
+
+/* ── LEFT PANEL ── */
+.auth-left {
+  width: 46%; min-height: 100vh;
+  background: var(--ink);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 40px 48px; position: relative; overflow: hidden;
+}
+.auth-left-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 30% 40%, rgba(13,148,136,.18) 0%, transparent 55%),
+              radial-gradient(ellipse 50% 40% at 80% 80%, rgba(37,99,235,.12) 0%, transparent 55%);
+}
+.auth-left-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.auth-left-content { position: relative; z-index: 1; }
+
+/* Logo on left */
+.auth-logo { display: flex; align-items: center; gap: 11px; margin-bottom: 60px; }
+.auth-logo-icon { width:38px; height:38px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:10px; display:flex; align-items:center; justify-content:center; color:#bfff58; font-family:var(--ff-m); font-size:14px; font-weight:700; }
+.auth-logo-text { font-family: var(--ff-d); font-size: 22px; color: #fff; }
+
+.auth-left-h { font-family: var(--ff-d); font-size: clamp(34px,3.5vw,50px); line-height: 1.1; letter-spacing: -1.5px; color: #fff; margin-bottom: 16px; }
+.auth-left-h em { font-style: italic; color: #bfff58; }
+.auth-left-p { font-size: 15px; color: rgba(255,255,255,.5); line-height: 1.65; max-width: 340px; margin-bottom: 48px; }
+
+/* Feature list on left */
+.auth-features { display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+.auth-feat { display: flex; align-items: center; gap: 12px; }
+.auth-feat-dot { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.auth-feat-text { font-size: 14px; color: rgba(255,255,255,.65); }
+
+/* Stats row bottom of left */
+.auth-stats { display: flex; gap: 28px; border-top: 1px solid rgba(255,255,255,.08); padding-top: 28px; }
+.auth-stat-val { font-family: var(--ff-d); font-size: 26px; color: #fff; }
+.auth-stat-lab { font-size: 11px; color: rgba(255,255,255,.35); font-family: var(--ff-m); margin-top: 1px; }
+
+/* ── RIGHT PANEL ── */
+.auth-right {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 40px 48px; background: var(--bg);
+}
+.auth-form-wrap { width: 100%; max-width: 400px; animation: fadeUp .4s cubic-bezier(.16,1,.3,1); }
+
+.auth-back { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink3); margin-bottom: 32px; cursor: pointer; border: none; background: none; padding: 0; transition: color .15s; text-decoration: none; }
+.auth-back:hover { color: var(--teal); }
+
+.auth-form-title { font-family: var(--ff-d); font-size: 30px; margin-bottom: 5px; line-height: 1.1; }
+.auth-form-title em { font-style: italic; color: var(--teal); }
+.auth-form-sub { font-size: 14px; color: var(--ink2); margin-bottom: 26px; }
+
+/* Tabs */
+.tabs { display: flex; background: var(--bg3); border-radius: var(--r); padding: 3px; margin-bottom: 22px; }
+.tab-btn { flex: 1; padding: 9px; border: none; border-radius: 8px; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; font-family: var(--ff-b); }
+.tab-btn.on { background: var(--bg2); color: var(--ink); box-shadow: 0 1px 5px rgba(0,0,0,.1); font-weight: 600; }
+
+.auth-submit {
+  width: 100%; padding: 12px; background: var(--ink); color: #fff;
+  border: none; border-radius: var(--r); font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all .2s; margin-top: 4px; font-family: var(--ff-b);
+}
+.auth-submit:hover { background: #1e2533; transform: translateY(-1px); box-shadow: var(--shadow); }
+
+.auth-switch { text-align: center; margin-top: 16px; font-size: 13px; color: var(--ink2); }
+.auth-switch span { color: var(--teal); cursor: pointer; font-weight: 500; }
+.auth-switch span:hover { text-decoration: underline; }
+
+.divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; }
+.divider-line { flex: 1; height: 1px; background: var(--line); }
+.divider-text { font-size: 12px; color: var(--ink3); font-family: var(--ff-m); }
+
+.trust-note { margin-top: 22px; padding: 11px 13px; background: var(--bg3); border: 1px solid var(--line); border-radius: var(--r); display: flex; gap: 9px; align-items: flex-start; }
+.trust-icon { font-size: 15px; margin-top: 1px; flex-shrink: 0; }
+.trust-text { font-size: 12px; color: var(--ink3); line-height: 1.5; font-family: var(--ff-m); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-left { display: none; }
+  .auth-right { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LEFT: Brand Panel -->
+<div class="auth-left">
+  <div class="auth-left-bg"></div>
+  <div class="auth-left-grid"></div>
+  <div class="auth-left-content">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">SF</div>
+      <div class="auth-logo-text">SkillForge</div>
+    </div>
+    <h1 class="auth-left-h">
+      Your tech skills<br><em>start here.</em>
+    </h1>
+    <p class="auth-left-p">
+      One platform to learn, practice, test, and track — built specifically for college students preparing for placements.
+    </p>
+    <div class="auth-features">
+      <div class="auth-feat"><div class="auth-feat-dot">🗺️</div><div class="auth-feat-text">10 structured skill roadmaps</div></div>
+      <div class="auth-feat"><div class="auth-feat-dot">💻</div><div class="auth-feat-text">Code editor with 5 languages</div></div>
+      <div class="auth-feat"><div class="auth-feat-dot">🧩</div><div class="auth-feat-text">10 interview-style coding problems</div></div>
+      <div class="auth-feat"><div class="auth-feat-dot">📝</div><div class="auth-feat-text">Timed mock tests with XP rewards</div></div>
+      <div class="auth-feat"><div class="auth-feat-dot">🤖</div><div class="auth-feat-text">AI-powered personalised recommendations</div></div>
+    </div>
+  </div>
+  <div class="auth-left-content">
+    <div class="auth-stats">
+      <div><div class="auth-stat-val">100%</div><div class="auth-stat-lab">Free forever</div></div>
+      <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+      <div><div class="auth-stat-val">0</div><div class="auth-stat-lab">Credit card needed</div></div>
+      <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+      <div><div class="auth-stat-val">∞</div><div class="auth-stat-lab">Access forever</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT: Form Panel -->
+<div class="auth-right">
+  <div class="auth-form-wrap">
+    <a href="index.html" class="auth-back">← Back to home</a>
+
+    <div id="loginView">
+      <div class="auth-form-title">Welcome <em>back</em></div>
+      <div class="auth-form-sub">Log in to continue your learning journey.</div>
+      <div class="tabs">
+        <button class="tab-btn on" onclick="showLogin()">Log In</button>
+        <button class="tab-btn" onclick="showSignup()">Sign Up</button>
+      </div>
+      <div id="loginErr" class="err-box" style="display:none"></div>
+      <div class="field"><label>Email</label><input id="loginEmail" type="email" placeholder="you@college.edu" autocomplete="email"/></div>
+      <div class="field"><label>Password</label><input id="loginPass" type="password" placeholder="Your password" autocomplete="current-password"/></div>
+      <button class="auth-submit" onclick="doLogin()">Log In →</button>
+      <div class="auth-switch">No account? <span onclick="showSignup()">Sign up free →</span></div>
+    </div>
+
+    <div id="signupView" style="display:none">
+      <div class="auth-form-title">Start <em>learning</em></div>
+      <div class="auth-form-sub">Create your free account. Everything starts at zero.</div>
+      <div class="tabs">
+        <button class="tab-btn" onclick="showLogin()">Log In</button>
+        <button class="tab-btn on" onclick="showSignup()">Sign Up</button>
+      </div>
+      <div id="signupErr" class="err-box" style="display:none"></div>
+      <div class="field"><label>Full Name</label><input id="signupName" type="text" placeholder="Arjun Sharma" autocomplete="name"/></div>
+      <div class="field"><label>Email</label><input id="signupEmail" type="email" placeholder="you@college.edu" autocomplete="email"/></div>
+      <div class="field"><label>Password</label><input id="signupPass" type="password" placeholder="Min 6 characters" autocomplete="new-password"/></div>
+      <div class="field"><label>Confirm Password</label><input id="signupConfirm" type="password" placeholder="Re-enter password"/></div>
+      <button class="auth-submit" onclick="doSignup()">Create Account →</button>
+      <div class="auth-switch">Already have an account? <span onclick="showLogin()">Log in →</span></div>
+    </div>
+
+    <div class="trust-note">
+      <div class="trust-icon">🔒</div>
+      <div class="trust-text">Your data is stored locally on your device. Passwords are hashed in production via bcrypt. No data is sent to any server in this demo.</div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/data/storage.js"></script>
+<script>
+function showLogin() {
+  document.getElementById('loginView').style.display = '';
+  document.getElementById('signupView').style.display = 'none';
+}
+function showSignup() {
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('signupView').style.display = '';
+}
+
+// Check URL param
+if (location.search.includes('signup')) showSignup();
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = '⚠ ' + msg;
+  el.style.display = '';
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  document.getElementById('loginErr').style.display = 'none';
+  if (!email || !pass) return showErr('loginErr', 'Please fill in both fields.');
+  const users = LS.get('sf_users', []);
+  const user  = users.find(u => u.email === email.toLowerCase() && u.password === pass);
+  if (!user) return showErr('loginErr', 'Wrong email or password. Try again.');
+  LS.set('sf_session', user);
+  window.location.href = 'app.html';
+}
+
+function doSignup() {
+  const name    = document.getElementById('signupName').value.trim();
+  const email   = document.getElementById('signupEmail').value.trim();
+  const pass    = document.getElementById('signupPass').value;
+  const confirm = document.getElementById('signupConfirm').value;
+  document.getElementById('signupErr').style.display = 'none';
+  if (!name)                    return showErr('signupErr', 'Please enter your full name.');
+  if (!email.includes('@'))     return showErr('signupErr', 'Enter a valid email address.');
+  if (pass.length < 6)          return showErr('signupErr', 'Password must be at least 6 characters.');
+  if (pass !== confirm)         return showErr('signupErr', 'Passwords do not match.');
+  const users = LS.get('sf_users', []);
+  if (users.find(u => u.email === email.toLowerCase())) return showErr('signupErr', 'Email already registered. Try logging in.');
+  const user = {
+    id: Date.now(), name, email: email.toLowerCase(), password: pass,
+    xp: 0, streak: 0, level: 'Beginner',
+    completedTopics: [], solvedProblems: [],
+    testsTaken: 0, testScores: [], healthLogs: [],
+    badges: [], perfectTests: 0,
+    lastActiveDate: null, joinedAt: new Date().toISOString(),
+  };
+  LS.set('sf_users', [...users, user]);
+  LS.set('sf_session', user);
+  window.location.href = 'app.html';
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (document.getElementById('signupView').style.display !== 'none') doSignup();
+  else doLogin();
+});
+
+// Redirect if already logged in
+if (LS.get('sf_session')) window.location.href = 'app.html';
+</script>
+</body>
+</html>

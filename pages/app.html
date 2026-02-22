@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SkillForge — Dashboard</title>
+
+<!-- ── STYLES ── -->
+<link rel="stylesheet" href="../css/styles.css"/>
+<link rel="stylesheet" href="../css/app.css"/>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">SF</div>
+    <div class="sb-logo-text">SkillForge</div>
+  </div>
+  <div class="sb-nav">
+    <div class="nav-sect-label">Menu</div>
+    <button class="nav-btn on" onclick="go('dashboard')"  id="nb-dashboard"><span class="nav-icon">◉</span>Dashboard</button>
+    <button class="nav-btn"    onclick="go('roadmap')"    id="nb-roadmap">  <span class="nav-icon">⬡</span>Skill Roadmaps<span class="nav-badge">10</span></button>
+    <button class="nav-btn"    onclick="go('editor')"     id="nb-editor">   <span class="nav-icon">▦</span>Code Editor<span class="nav-badge">5 langs</span></button>
+    <button class="nav-btn"    onclick="go('problems')"   id="nb-problems"> <span class="nav-icon">◈</span>Practice<span class="nav-badge">10</span></button>
+    <button class="nav-btn"    onclick="go('tests')"      id="nb-tests">    <span class="nav-icon">◷</span>Mock Tests<span class="nav-badge">3</span></button>
+    <button class="nav-btn"    onclick="go('health')"     id="nb-health">   <span class="nav-icon">♡</span>Health Tracker</button>
+    <button class="nav-btn"    onclick="go('ai')"         id="nb-ai">       <span class="nav-icon">◎</span>AI Recommendations</button>
+  </div>
+  <div class="sb-user" id="sbUser"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content" id="content"></div>
+
+</div><!-- .shell -->
+
+<!-- ══════════════════════════════════════
+     DATA LAYER  (order matters)
+══════════════════════════════════════ -->
+<script src="../js/data/storage.js"></script>
+<script src="../js/data/skills.js"></script>
+<script src="../js/data/roadmaps.js"></script>
+<script src="../js/data/resources.js"></script>
+<script src="../js/data/problems.js"></script>
+<script src="../js/data/tests.js"></script>
+<script src="../js/data/templates.js"></script>
+<script src="../js/data/badges.js"></script>
+<script src="../js/data/helpers.js"></script>
+
+<!-- ══════════════════════════════════════
+     APP MODULES  (order matters)
+══════════════════════════════════════ -->
+<script src="../js/modules/dashboard.js"></script>
+<script src="../js/modules/roadmap.js"></script>
+<script src="../js/modules/editor.js"></script>
+<script src="../js/modules/problems.js"></script>
+<script src="../js/modules/tests.js"></script>
+<script src="../js/modules/health.js"></script>
+<script src="../js/modules/ai.js"></script>
+
+<!-- ══════════════════════════════════════
+     CORE  (init + router — loads last)
+══════════════════════════════════════ -->
+<script src="../js/modules/core.js"></script>
+
+</body>
+</html>
