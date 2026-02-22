@@ -1,7 +1,30 @@
-# SkillForge — File Structure
+# 🚀 SkillForge — AI-Powered Skill Learning Platform
 
-## How to Run
-Open `pages/index.html` in your browser. No server needed.
+SkillForge is a modular web platform designed to help students master tech skills through structured learning roadmaps, coding practice, mock tests, and AI-driven recommendations — all inside a single lightweight web app.
+
+Built using pure HTML, CSS, and JavaScript, SkillForge runs entirely in the browser with no backend required.
+
+---
+
+## ✨ Features
+
+✅ Structured Skill Roadmaps  
+Follow Beginner → Intermediate → Advanced paths across multiple technologies.
+
+✅ Built-in Code Editor  
+Practice coding directly in the browser across multiple languages.
+
+✅ Practice Problems  
+Solve curated interview-style problems with solutions and XP rewards.
+
+✅ Mock Tests  
+Timed quizzes with instant scoring and feedback.
+
+✅ Health Tracker  
+Track habits like sleep, water, and exercise to improve learning performance.
+
+✅ AI Recommendations  
+Rule-based engine that suggests what to learn next based on progress.
 
 ## Folder Structure
 
@@ -41,24 +64,4 @@ skillforge/
         └── ai.js               ← AI recommendations (rule-based engine)
 ```
 
-## Script Load Order (in app.html)
-1. `data/storage.js` — must be first (LS used everywhere)
-2. `data/skills.js`
-3. `data/roadmaps.js`
-4. `data/resources.js`
-5. `data/problems.js`
-6. `data/tests.js`
-7. `data/templates.js`
-8. `data/badges.js`
-9. `data/helpers.js`
-10. `modules/dashboard.js`
-11. `modules/roadmap.js`
-12. `modules/editor.js`
-13. `modules/problems.js`
-14. `modules/tests.js`
-15. `modules/health.js`
-16. `modules/ai.js`
-17. `modules/core.js` — must be LAST (calls renderSidebar + go('dashboard'))
-
-## User Flow
 `index.html` → `auth.html` → `app.html`
